@@ -1,11 +1,8 @@
 README
 ======
 
-ATTENTION
----------
-
-This software is EXPERIMENTAL and not ready for production.
-It is just a proof of concept.
+This is a fork from [https://github.com/johmue/mysql-workbench-schema-exporter](), in order to improve 
+and cotinue its development, as it looks abandoned in the original repo :(
 
 
 What is MySQL Workbench schema exporter?
@@ -154,6 +151,10 @@ General options applied to all formatter.
 
     The entity namespace. Default is `Entity`.
 
+  * `tablePrefix` Default is `empty`
+
+    Define a prefix for tables name. Default is `empty`. 
+
   * `repositoryNamespace`
 
     The namespace prefix for entity repository class name. For this configuration to apply, `useAutomaticRepository` must be set to `true`.
@@ -161,7 +162,6 @@ General options applied to all formatter.
   * `extendTableNameWithSchemaName`
 
     Include schema name beside the table name. Default is `false`. 
-
 
 ### Option list for Doctrine 2.0 Annotation
 
@@ -180,6 +180,10 @@ General options applied to all formatter.
   * `entityNamespace`
 
     See above.
+
+  * `tablePrefix` Default is `empty`
+
+    See above. 
 
   * `repositoryNamespace`
 

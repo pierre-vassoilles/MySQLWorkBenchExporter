@@ -76,12 +76,14 @@ class Table extends Base
 
     public function writeTable(WriterInterface $writer)
     {
+        $tablePrefix = $this->getDocument()->getConfig()->get(Formatter::CFG_TABLE_PREFIX);
+
         $writer
             ->write('%s:', $this->getNamespace())
             ->indent()
                 ->write('type: Entity')
                 ->writeIf($this->getDocument()->getConfig()->get(Formatter::CFG_AUTOMATIC_REPOSITORY), 'repositoryClass: %s', (($namespace = $this->getDocument()->getConfig()->get(Formatter::CFG_REPOSITORY_NAMESPACE)) ? $namespace.'\\' : '').$this->getModelName().'Repository')
-                ->write('table: %s', ($this->getDocument()->getConfig()->get(Formatter::CFG_EXTEND_TABLENAME_WITH_SCHEMA) ? $this->getSchema()->getName().'.' : '').$this->getRawTableName())
+                ->write('table: %s', ($tablePrefix.$this->getDocument()->getConfig()->get(Formatter::CFG_EXTEND_TABLENAME_WITH_SCHEMA) ? $this->getSchema()->getName().'.' : '').$this->getRawTableName())
                 ->writeCallback(function(WriterInterface $writer, Table $_this = null) {
                     $_this->getColumns()->write($writer);
                 })

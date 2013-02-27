@@ -395,11 +395,11 @@ class Table extends Base
      * @throws \Exception
      * @return string
      */
-    public function getTableFileName()
+    public function getTableFileName($prefix = '')
     {
         if (0 === strlen($filename = $this->getDocument()->translateFilename($this)))
         {
-            $filename = $this->getSchema()->getName().'.'.$this->getRawTableName().'.'.$this->getDocument()->getFormatter()->getFileExtension();
+            $filename = $prefix.$this->getSchema()->getName().'.'.$this->getRawTableName().'.'.$this->getDocument()->getFormatter()->getFileExtension();
         }
 
         return $filename;

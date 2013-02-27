@@ -37,6 +37,7 @@ class Formatter extends BaseFormatter
     const CFG_REPOSITORY_NAMESPACE         = 'repositoryNamespace';
     const CFG_AUTOMATIC_REPOSITORY         = 'useAutomaticRepository';
     const CFG_EXTEND_TABLENAME_WITH_SCHEMA = 'extendTableNameWithSchemaName';
+    const CFG_TABLE_PREFIX                 = 'tablePrefix';
 
     protected function init()
     {
@@ -49,6 +50,7 @@ class Formatter extends BaseFormatter
             static::CFG_REPOSITORY_NAMESPACE          => '',
             static::CFG_EXTEND_TABLENAME_WITH_SCHEMA  => false,
             static::CFG_AUTOMATIC_REPOSITORY          => true,
+            static::CFG_TABLE_PREFIX                  => '',
         ));
     }
 
