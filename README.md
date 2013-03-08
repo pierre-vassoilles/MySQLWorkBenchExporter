@@ -1,7 +1,7 @@
 README
 ======
 
-This is a fork from [https://github.com/johmue/mysql-workbench-schema-exporter](), in order to improve 
+This is a fork from [https://github.com/johmue/mysql-workbench-schema-exporter](), in order to improve
 and cotinue its development, as it looks abandoned in the original repo :(
 
 
@@ -72,8 +72,7 @@ Where:
 
 Sample usage:
 
-    php cli/export.php --export=doctrine1 example/data/test.mwb ./generated
-    php cli/export.php --zip example/data/test.mwb
+    php cli/export.php --export=doctrine2-annotation example/data/test2.mwb example/result
 
 Sample export paramaters (JSON) for doctrine2-annotation:
 
@@ -135,7 +134,7 @@ General options applied to all formatter.
     Include schema name beside the table name. Default is `false`.
 
   * `{d:externalRelations}`
-  
+
 
 ### Option list for Doctrine 2.0 YAML
 
@@ -153,7 +152,7 @@ General options applied to all formatter.
 
   * `tablePrefix` Default is `empty`
 
-    Define a prefix for tables name. Default is `empty`. 
+    Define a prefix for tables name. Default is `empty`.
 
   * `repositoryNamespace`
 
@@ -161,7 +160,7 @@ General options applied to all formatter.
 
   * `extendTableNameWithSchemaName`
 
-    Include schema name beside the table name. Default is `false`. 
+    Include schema name beside the table name. Default is `false`.
 
 ### Option list for Doctrine 2.0 Annotation
 
@@ -183,7 +182,7 @@ General options applied to all formatter.
 
   * `tablePrefix` Default is `empty`
 
-    See above. 
+    See above.
 
   * `repositoryNamespace`
 
