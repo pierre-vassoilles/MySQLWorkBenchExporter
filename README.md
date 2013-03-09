@@ -74,6 +74,8 @@ Sample usage:
 
     php cli/export.php --export=doctrine2-annotation example/data/test.mwb example/result
 
+    php cli/export.php --config=example/data/config.json example/data/test2.mwb example/result
+
 Sample export paramaters (JSON) for doctrine2-annotation:
 
     {
