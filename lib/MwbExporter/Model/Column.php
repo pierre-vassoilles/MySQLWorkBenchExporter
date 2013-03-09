@@ -87,9 +87,22 @@ class Column extends Base
      *
      * @return string
      */
-    public function getColumnName()
+    public function getColumnName($style = 'raw')
     {
-        return $this->parameters->get('name');
+        switch ($style) {
+            case 'raw':
+                return $this->parameters->get('name');
+                break;
+            case 'lowercamelcase':
+                return $this->formatLowerCamelCase($this->parameters->get('name'));
+                break;
+            case 'uppercamelcase':
+                return $this->formatUpperCamelCase($this->parameters->get('name'));
+                break;
+            case 'underscore':
+                return $this->formatUnderscore($this->parameters->get('name'));
+                break;
+        }
     }
 
     /**

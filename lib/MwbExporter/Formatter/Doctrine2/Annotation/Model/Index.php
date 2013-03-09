@@ -27,14 +27,17 @@
 namespace MwbExporter\Formatter\Doctrine2\Annotation\Model;
 
 use MwbExporter\Model\Index as BaseIndex;
+use MwbExporter\Formatter\Doctrine2\Annotation\Formatter;
 
 class Index extends BaseIndex
 {
     protected function getColumnNames()
     {
+        $columnNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_COLUMN_NAME_CODING_STYLE);
+
         $columns = array();
         foreach ($this->columns as $refColumn) {
-            $columns[] = $refColumn->getColumnName();
+            $columns[] = $refColumn->getColumnName($columnNameCodingStyle);
         }
 
         return $columns;
@@ -42,6 +45,23 @@ class Index extends BaseIndex
 
     public function asAnnotation()
     {
-        return array('name' => $this->parameters->get('name'), 'columns' => $this->getColumnNames());
+        $columnNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_COLUMN_NAME_CODING_STYLE);
+
+        switch ($columnNameCodingStyle) {
+            case 'raw':
+                $name = $this->parameters->get('name');
+                break;
+            case 'lowercamelcase':
+                $name = $this->formatLowerCamelCase($this->parameters->get('name'));
+                break;
+            case 'uppercamelcase':
+                $name = $this->formatUpperCamelCase($this->parameters->get('name'));
+                break;
+            case 'underscore':
+                $name = $this->formatUnderscore($this->parameters->get('name'));
+                break;
+        }
+
+        return array('name' => $name, 'columns' => $this->getColumnNames($columnNameCodingStyle));
     }
 }

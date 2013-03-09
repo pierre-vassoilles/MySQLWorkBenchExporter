@@ -77,7 +77,7 @@ abstract class Base
 
     /**
      * Return the internal ID of the MySQL Workbench object
-     * 
+     *
      * @return string
      */
     public function getId()
@@ -87,7 +87,7 @@ abstract class Base
 
     /**
      * Returns the attributes of the current MySQL Workbench object
-     * 
+     *
      * @return \SimpleXmlElement
      */
     public function getAttributes()
@@ -97,7 +97,7 @@ abstract class Base
 
     /**
      * Returns current MySQL Workbench object
-     * 
+     *
      * @return \SimpleXmlElement
      */
     public function getNode()
@@ -107,7 +107,7 @@ abstract class Base
 
     /**
      * Returns the parent object
-     * 
+     *
      * @return object
      */
     public function getParent()
@@ -117,7 +117,7 @@ abstract class Base
 
     /**
      * Get parameters holder.
-     * 
+     *
      * @return \MwbExporter\RegistryHolder
      */
     public function getParameters()
@@ -149,7 +149,7 @@ abstract class Base
 
     /**
      * Filters given comment for embedded code by a given keyword
-     * 
+     *
      * @param string $needle_raw
      * @param string $comment
      * @return string
@@ -197,7 +197,7 @@ abstract class Base
 
     /**
      * Returns XML of the current MySQL Workbench object
-     * 
+     *
      * @return string
      */
     public function debug()
@@ -236,6 +236,36 @@ abstract class Base
      */
     protected function getVars()
     {
-      return array();
+        return array();
+    }
+
+    /**
+     *
+     * @param string $columnName
+     * @return string
+     */
+    protected function formatUpperCamelCase($columnName)
+    {
+        return ucfirst(preg_replace('@\_(\w)@e', 'ucfirst("$1")', $columnName));
+    }
+
+    /**
+     *
+     * @param string $columnName
+     * @return string
+     */
+    protected function formatLowerCamelCase($columnName)
+    {
+        return lcfirst(preg_replace('@\_(\w)@e', 'ucfirst("$1")', $columnName));
+    }
+
+    /**
+     *
+     * @param string $columnName
+     * @return string
+     */
+    protected function formatUnderscore($columnName)
+    {
+        return strtolower(preg_replace('/(?<=[a-z])([A-Z])/', '_$1', $columnName));
     }
 }

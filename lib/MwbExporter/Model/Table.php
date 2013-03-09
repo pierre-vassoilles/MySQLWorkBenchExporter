@@ -304,6 +304,35 @@ class Table extends Base
      *
      * @return string
      */
+    public function getTableName($style = 'raw')
+    {
+        $tablename = $this->getRawTableName();
+        // check if table name is plural --> convert to singular
+        if (!$this->getDocument()->getConfig()->get(FormatterInterface::CFG_SKIP_PLURAL) && Pluralizer::wordIsPlural($tablename)) {
+            $tablename = Singularizer::singularize($tablename);
+        }
+
+        switch ($style) {
+            case 'raw':
+                return $this->parameters->get('name');
+                break;
+            case 'lowercamelcase':
+                return $this->formatLowerCamelCase($tablename);
+                break;
+            case 'uppercamelcase':
+                return $this->formatUpperCamelCase($tablename);
+                break;
+            case 'underscore':
+                return $this->formatUnderscore($tablename);
+                break;
+        }
+    }
+
+    /**
+     * Get the table name in the form of camel cased.
+     *
+     * @return string
+     */
     public function getModelName()
     {
         $tablename = $this->getRawTableName();

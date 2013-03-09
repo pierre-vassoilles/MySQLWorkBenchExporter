@@ -29,13 +29,24 @@ namespace MwbExporter\Formatter\Doctrine2\Annotation\Model;
 use MwbExporter\Model\Column as BaseColumn;
 use MwbExporter\Helper\Pluralizer;
 use MwbExporter\Writer\WriterInterface;
+use MwbExporter\Formatter\Doctrine2\Annotation\Formatter;
 
 class Column extends BaseColumn
 {
     public function asAnnotation()
     {
+        $columnNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_COLUMN_NAME_CODING_STYLE);
+        $tableNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_TABLE_NAME_CODING_STYLE);
+        $propertyNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_PROPERTY_NAME_CODING_STYLE);
+
+        if ($this->getColumnName($columnNameCodingStyle) == $this->getColumnName($propertyNameCodingStyle)) {
+            $columnName = null;
+        } else {
+            $columnName = $this->getColumnName($columnNameCodingStyle);
+        }
+
         $attributes = array(
-            'name' => ($columnName = $this->getTable()->quoteIdentifier($this->getColumnName())) !== $this->getColumnName() ? $columnName : null,
+            'name' => $columnName,
             'type' => $this->getDocument()->getFormatter()->getDatatypeConverter()->getMappedType($this),
         );
         if (($length = $this->parameters->get('length')) && ($length != -1)) {
@@ -55,6 +66,8 @@ class Column extends BaseColumn
     public function write(WriterInterface $writer)
     {
         $comment = $this->getComment();
+        $propertyNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_PROPERTY_NAME_CODING_STYLE);
+
         $writer
             ->write('/**')
             ->writeIf($comment, $comment)
@@ -64,7 +77,7 @@ class Column extends BaseColumn
             ->writeIf($this->parameters->get('autoIncrement') == 1,
                     ' * '.$this->getTable()->getAnnotation('GeneratedValue', array('strategy' => 'AUTO')))
             ->write(' */')
-            ->write('protected $'.$this->getColumnName().';')
+            ->write('protected $'.$this->getColumnName($propertyNameCodingStyle).';')
             ->write('')
         ;
 
@@ -90,6 +103,10 @@ class Column extends BaseColumn
 
     public function writeRelations(WriterInterface $writer)
     {
+        $columnNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_COLUMN_NAME_CODING_STYLE);
+        $tableNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_TABLE_NAME_CODING_STYLE);
+        $propertyNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_PROPERTY_NAME_CODING_STYLE);
+
         // one to many references
         foreach ($this->foreigns as $foreign) {
             if ($foreign->getForeign()->getTable()->isManyToMany()) {
@@ -113,8 +130,8 @@ class Column extends BaseColumn
             );
 
             $joinColumnAnnotationOptions = array(
-                'name' => $foreign->getForeign()->getColumnName(),
-                'referencedColumnName' => $foreign->getLocal()->getColumnName(),
+                'name' => $foreign->getForeign()->getColumnName($columnNameCodingStyle),
+                'referencedColumnName' => $foreign->getLocal()->getColumnName($columnNameCodingStyle),
                 'onDelete' => $this->getDeleteRule($foreign->getLocal()->getParameters()->get('deleteRule')),
                 'nullable' => !$foreign->getForeign()->getParameters()->get('isNotNull') ? null : false,
             );
@@ -155,8 +172,8 @@ class Column extends BaseColumn
                 // 'orphanRemoval' => $this->getBooleanOption($this->local->parseComment('orphanRemoval')),
             );
             $joinColumnAnnotationOptions = array(
-                'name' => $this->local->getForeign()->getColumnName(),
-                'referencedColumnName' => $this->local->getLocal()->getColumnName(),
+                'name' => $this->local->getForeign()->getColumnName($columnNameCodingStyle),
+                'referencedColumnName' => $this->local->getLocal()->getColumnName($columnNameCodingStyle),
                 'onDelete' => $this->getDeleteRule($this->local->getParameters()->get('deleteRule')),
                 'nullable' => !$this->local->getForeign()->getParameters()->get('isNotNull') ? null : false,
             );
@@ -205,18 +222,20 @@ class Column extends BaseColumn
         $table = $this->getTable();
         $converter = $this->getDocument()->getFormatter()->getDatatypeConverter();
         $nativeType = $converter->getNativeType($converter->getMappedType($this));
+        $propertyNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_PROPERTY_NAME_CODING_STYLE);
+
         $writer
             // setter
             ->write('/**')
-            ->write(' * Set the value of '.$this->getColumnName().'.')
+            ->write(' * Set the value of '.$this->getColumnName($propertyNameCodingStyle).'.')
             ->write(' *')
             ->write(' * @param '.$nativeType.' $'.$this->getColumnName())
-            ->write(' * @return '.$table->getNamespace())
+            ->write(' * @return '.$table->getNamespace($propertyNameCodingStyle))
             ->write(' */')
-            ->write('public function set'.$this->columnNameBeautifier($this->getColumnName()).'($'.$this->getColumnName().')')
+            ->write('public function set'.$this->getColumnName('uppercamelcase').'($'.$this->getColumnName($propertyNameCodingStyle).')')
             ->write('{')
             ->indent()
-                ->write('$this->'.$this->getColumnName().' = $'.$this->getColumnName().';')
+                ->write('$this->'.$this->getColumnName($propertyNameCodingStyle).' = $'.$this->getColumnName().';')
                 ->write('')
                 ->write('return $this;')
             ->outdent()
@@ -224,14 +243,14 @@ class Column extends BaseColumn
             ->write('')
             // getter
             ->write('/**')
-            ->write(' * Get the value of '.$this->getColumnName().'.')
+            ->write(' * Get the value of '.$this->getColumnName($propertyNameCodingStyle).'.')
             ->write(' *')
             ->write(' * @return '.$nativeType)
             ->write(' */')
-            ->write('public function get'.$this->columnNameBeautifier($this->getColumnName()).'()')
+            ->write('public function get'.$this->getColumnName('uppercamelcase').'()')
             ->write('{')
             ->indent()
-                ->write('return $this->'.$this->getColumnName().';')
+                ->write('return $this->'.$this->getColumnName($propertyNameCodingStyle).';')
             ->outdent()
             ->write('}')
             ->write('')
@@ -242,6 +261,10 @@ class Column extends BaseColumn
 
     public function writeRelationsGetterAndSetter(WriterInterface $writer)
     {
+        $columnNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_COLUMN_NAME_CODING_STYLE);
+        $tableNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_TABLE_NAME_CODING_STYLE);
+        $propertyNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_PROPERTY_NAME_CODING_STYLE);
+
         $table = $this->getTable();
         // one to many references
         foreach ($this->foreigns as $foreign) {

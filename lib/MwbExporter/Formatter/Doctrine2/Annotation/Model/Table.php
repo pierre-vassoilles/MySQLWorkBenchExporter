@@ -228,6 +228,7 @@ class Table extends BaseTable
         $skipGetterAndSetter = $this->getDocument()->getConfig()->get(Formatter::CFG_SKIP_GETTER_SETTER);
         $serializableEntity  = $this->getDocument()->getConfig()->get(Formatter::CFG_GENERATE_ENTITY_SERIALIZATION);
         $tablePrefix = $this->getDocument()->getConfig()->get(Formatter::CFG_TABLE_PREFIX);
+        $tableNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_TABLE_NAME_CODING_STYLE);
 
         $comment = $this->getComment();
         $writer
@@ -243,7 +244,7 @@ class Table extends BaseTable
             ->write(' *')
             ->writeIf($comment, $comment)
             ->write(' * '.$this->getAnnotation('Entity', array('repositoryClass' => $this->getDocument()->getConfig()->get(Formatter::CFG_AUTOMATIC_REPOSITORY) ? $repositoryNamespace.$this->getModelName().'Repository' : null)))
-            ->write(' * '.$this->getAnnotation('Table', array('name' => $this->quoteIdentifier($tablePrefix.$this->getRawTableName()), 'indexes' => $this->getIndexesAnnotation(), 'uniqueConstraints' => $this->getUniqueConstraintsAnnotation())))
+            ->write(' * '.$this->getAnnotation('Table', array('name' => $this->quoteIdentifier($tablePrefix.$this->getTableName($tableNameCodingStyle)), 'indexes' => $this->getIndexesAnnotation(), 'uniqueConstraints' => $this->getUniqueConstraintsAnnotation())))
             ->write(' */')
             ->write('class '.$this->getModelName())
             ->write('{')
@@ -307,13 +308,15 @@ class Table extends BaseTable
 
     public function writeSerialization(WriterInterface $writer)
     {
+        $propertyNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_PROPERTY_NAME_CODING_STYLE);
+
         $columns = $this->getColumns()->getColumns();
         $writer
             ->write('public function __sleep()')
             ->write('{')
             ->indent()
                 ->write('return array(%s);', implode(', ', array_map(function($column) {
-                    return sprintf('\'%s\'', $column->getColumnName());
+                    return sprintf('\'%s\'', $column->getColumnName('uppercamelcase'));
                 }, $columns)))
             ->outdent()
             ->write('}')
@@ -322,6 +325,8 @@ class Table extends BaseTable
 
     public function writeManyToMany(WriterInterface $writer)
     {
+        $columnNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_COLUMN_NAME_CODING_STYLE);
+
         // @TODO D2A ManyToMany relation joinColumns and inverseColumns
         // referencing wrong column names
 
@@ -361,15 +366,15 @@ class Table extends BaseTable
                             'name'               => $relation['reference']->getOwningTable()->getRawTableName(),
                             'joinColumns'        => array(
                                 $this->getJoinColumnAnnotation(
-                                    $relation['reference']->getForeign()->getColumnName(),
-                                    $relation['reference']->getLocal()->getColumnName(),
+                                    $relation['reference']->getForeign()->getColumnName($columnNameCodingStyle),
+                                    $relation['reference']->getLocal()->getColumnName($columnNameCodingStyle),
                                     $relation['reference']->getParameters()->get('deleteRule')
                                 )
                             ),
                             'inverseJoinColumns' => array(
                                 $this->getJoinColumnAnnotation(
-                                    $mappedRelation->getForeign()->getColumnName(),
-                                    $mappedRelation->getLocal()->getColumnName(),
+                                    $mappedRelation->getForeign()->getColumnName($columnNameCodingStyle),
+                                    $mappedRelation->getLocal()->getColumnName($columnNameCodingStyle),
                                     $mappedRelation->getParameters()->get('deleteRule')
                                 )
                             )

@@ -41,6 +41,9 @@ class Formatter extends BaseFormatter
     const CFG_GENERATE_ENTITY_SERIALIZATION  = 'generateEntitySerialization';
     const CFG_QUOTE_IDENTIFIER               = 'quoteIdentifier';
     const CFG_TABLE_PREFIX                   = 'tablePrefix';
+    const CFG_PROPERTY_NAME_CODING_STYLE     = 'propertyNameCodingStyle';
+    const CFG_TABLE_NAME_CODING_STYLE        = 'tableNameCodingStyle';
+    const CFG_COLUMN_NAME_CODING_STYLE       = 'columnNameCodingStyle';
 
     protected function init()
     {
@@ -57,6 +60,9 @@ class Formatter extends BaseFormatter
             static::CFG_GENERATE_ENTITY_SERIALIZATION => true,
             static::CFG_QUOTE_IDENTIFIER              => false,
             static::CFG_TABLE_PREFIX                  => '',
+            static::CFG_PROPERTY_NAME_CODING_STYLE    => 'lowercamelcase',
+            static::CFG_TABLE_NAME_CODING_STYLE       => 'underscore',
+            static::CFG_COLUMN_NAME_CODING_STYLE      => 'underscore',
         ));
     }
 
