@@ -1,5 +1,6 @@
 nbproject/
 example/result/
+example/data/*.bak
 tests/
 .buildpath
 .project
