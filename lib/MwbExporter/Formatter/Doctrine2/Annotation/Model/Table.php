@@ -261,7 +261,7 @@ class Table extends BaseTable
                     }
                 })
             ->outdent()
-            ->write('}')
+            ->write("}\n")
         ;
 
         return $this;
