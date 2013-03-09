@@ -55,7 +55,7 @@ class Formatter extends BaseFormatter
             static::CFG_BUNDLE_NAMESPACE              => '',
             static::CFG_ENTITY_NAMESPACE              => '',
             static::CFG_REPOSITORY_NAMESPACE          => '',
-            static::CFG_AUTOMATIC_REPOSITORY          => true,
+            static::CFG_AUTOMATIC_REPOSITORY          => false,
             static::CFG_SKIP_GETTER_SETTER            => false,
             static::CFG_GENERATE_ENTITY_SERIALIZATION => true,
             static::CFG_QUOTE_IDENTIFIER              => false,
