@@ -88,12 +88,22 @@ Sample export paramaters (JSON) for doctrine2-annotation:
             "entityNamespace": "",
             "repositoryNamespace": "",
             "useAnnotationPrefix": "ORM\\",
-            "useAutomaticRepository": true,
+            "useAutomaticRepository": false,
             "indentation": 4,
             "filename": "%entity%.%extension%",
-            "quoteIdentifier": false
+            "quoteIdentifier": false,
+            "propertyNameCodingStyle": "lowercamelcase";
+            "tableNameCodingStyle": "underscore";
+            "columnNameCodingStyle": "underscore";
         }
     }
+
+    Coding style options:
+    * raw
+    * underscore
+    * uppercamelcase
+    * lowercamelcase
+
 
 Exporter Options
 ----------------
