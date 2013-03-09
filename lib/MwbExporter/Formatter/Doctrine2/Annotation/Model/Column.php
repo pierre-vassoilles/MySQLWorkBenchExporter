@@ -230,7 +230,7 @@ class Column extends BaseColumn
             ->write(' * Set the value of '.$this->getColumnName($propertyNameCodingStyle).'.')
             ->write(' *')
             ->write(' * @param '.$nativeType.' $'.$this->getColumnName())
-            ->write(' * @return '.$table->getNamespace($propertyNameCodingStyle))
+            ->write(' * @return '.$table->getNamespace())
             ->write(' */')
             ->write('public function set'.$this->getColumnName('uppercamelcase').'($'.$this->getColumnName($propertyNameCodingStyle).')')
             ->write('{')
