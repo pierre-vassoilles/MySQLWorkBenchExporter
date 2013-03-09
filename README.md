@@ -92,9 +92,9 @@ Sample export paramaters (JSON) for doctrine2-annotation:
             "indentation": 4,
             "filename": "%entity%.%extension%",
             "quoteIdentifier": false,
-            "propertyNameCodingStyle": "lowercamelcase";
-            "tableNameCodingStyle": "underscore";
-            "columnNameCodingStyle": "underscore";
+            "propertyNameCodingStyle": "lowercamelcase",
+            "tableNameCodingStyle": "underscore",
+            "columnNameCodingStyle": "underscore"
         }
     }
 
