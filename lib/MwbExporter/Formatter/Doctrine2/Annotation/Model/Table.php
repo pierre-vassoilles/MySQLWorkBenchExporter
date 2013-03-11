@@ -326,6 +326,7 @@ class Table extends BaseTable
     public function writeManyToMany(WriterInterface $writer)
     {
         $columnNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_COLUMN_NAME_CODING_STYLE);
+        $tableNameCodingStyle = $this->getDocument()->getConfig()->get(Formatter::CFG_TABLE_NAME_CODING_STYLE);
 
         // @TODO D2A ManyToMany relation joinColumns and inverseColumns
         // referencing wrong column names
@@ -363,7 +364,7 @@ class Table extends BaseTable
                     ->write(' * '.$this->getAnnotation('ManyToMany', $annotationOptions))
                     ->write(' * '.$this->getAnnotation('JoinTable',
                         array(
-                            'name'               => $relation['reference']->getOwningTable()->getRawTableName(),
+                            'name'               => $relation['reference']->getOwningTable()->getTableName($tableNameCodingStyle),
                             'joinColumns'        => array(
                                 $this->getJoinColumnAnnotation(
                                     $relation['reference']->getForeign()->getColumnName($columnNameCodingStyle),
