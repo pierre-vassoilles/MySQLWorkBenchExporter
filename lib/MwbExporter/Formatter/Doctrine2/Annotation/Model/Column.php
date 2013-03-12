@@ -235,7 +235,7 @@ class Column extends BaseColumn
             ->write('public function set'.$this->getColumnName('uppercamelcase').'($'.$this->getColumnName($propertyNameCodingStyle).')')
             ->write('{')
             ->indent()
-                ->write('$this->'.$this->getColumnName($propertyNameCodingStyle).' = $'.$this->getColumnName().';')
+                ->write('$this->'.$this->getColumnName($propertyNameCodingStyle).' = $'.$this->getColumnName($propertyNameCodingStyle).';')
                 ->write('')
                 ->write('return $this;')
             ->outdent()
