@@ -1,0 +1,22 @@
+{
+    "export": "doctrine2-annotation",
+    "zip": false,
+    "dir": "",
+    "params": {
+        "indentation": 4,
+        "useTabs": false,
+        "filename": "%entity%.%extension%",
+        "backupExistingFile": true,
+        "skipPluralNameChecking": false,
+        "enhanceManyToManyDetection": true,
+        "useAnnotationPrefix": "ORM\\",
+        "bundleNamespace": "",
+        "entityNamespace": "",
+        "repositoryNamespace": "",
+        "useAutomaticRepository": true,
+        "quoteIdentifier": false,
+        "propertyNameCodingStyle": "lowercamelcase",
+        "tableNameCodingStyle": "underscore",
+        "columnNameCodingStyle": "underscore"
+        }
+}
