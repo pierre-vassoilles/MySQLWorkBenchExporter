@@ -114,7 +114,6 @@ class DatatypeConverter extends BaseDatatypeConverter
         switch ($type) {
             case 'array':
             case 'boolean':
-            case 'datetime':
             case 'integer':
             case 'string':
             case 'float':
@@ -126,10 +125,11 @@ class DatatypeConverter extends BaseDatatypeConverter
                 $type = 'integer';
                 break;
 
+            case 'datetime':
             case 'datetimez':
             case 'date':
             case 'time':
-                $type = 'datetime';
+                $type = '\\DateTime';
                 break;
 
             case 'decimal':
