@@ -17,6 +17,7 @@
         "quoteIdentifier": false,
         "propertyNameCodingStyle": "lowercamelcase",
         "tableNameCodingStyle": "underscore",
-        "columnNameCodingStyle": "underscore"
-        }
+        "columnNameCodingStyle": "underscore",
+        "generateEntitySerialization": false
+    }
 }
