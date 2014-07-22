@@ -178,7 +178,7 @@ abstract class Base
 
         // strip hints for mysql-exporter in comments (starting with {d:keyword}
         // or {doctrine:keyword} and ending with {/d:keyword}
-        //$comment = trim(preg_replace('/\{(d|doctrine):([^\}]+)\}(.+?)\{\/\1:\2\}/si', '', $comment));
+        $comment = trim(preg_replace('/\{(d|doctrine):([^\}]+)\}(.+?)\{\/\1:\2\}/si', '', $comment));
 
         if (!$comment) {
             return '';
