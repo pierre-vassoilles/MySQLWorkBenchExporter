@@ -242,21 +242,29 @@ abstract class Base
     /**
      *
      * @param string $columnName
+     *
      * @return string
      */
     protected function formatUpperCamelCase($columnName)
     {
-        return ucfirst(preg_replace('@\_(\w)@e', 'ucfirst("$1")', $columnName));
+        return ucfirst(preg_replace_callback('@\_(\w)@', function ($m) {
+            return ucfirst($m[1]);
+        }, $columnName));
+
     }
+
 
     /**
      *
      * @param string $columnName
+     *
      * @return string
      */
     protected function formatLowerCamelCase($columnName)
     {
-        return lcfirst(preg_replace('@\_(\w)@e', 'ucfirst("$1")', $columnName));
+        return lcfirst(preg_replace_callback('@\_(\w)@', function ($m) {
+            return ucfirst($m[1]);
+        }, $columnName));
     }
 
     /**

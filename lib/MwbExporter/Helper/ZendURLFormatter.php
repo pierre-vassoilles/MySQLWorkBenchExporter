@@ -36,7 +36,12 @@ class ZendURLFormatter extends WordTransform
      */
     public static function fromCamelCaseToDashConnection($string)
     {
-        $return = preg_replace('/([A-Z])/e', "'-'.ucwords(strtolower('\\1'))", $string);
+//        $return = preg_replace('/([A-Z])/e', "'-'.ucwords(strtolower('\\1'))", $string);
+
+        $return = preg_replace_callback('/([A-Z])/e', function($m) {
+            return "'-'.ucwords(strtolower('$m[1]'))";
+        }, $string);
+
         if (substr($return, 0,1) === '-') {
             $return = substr($return, 1, strlen($return));
         }

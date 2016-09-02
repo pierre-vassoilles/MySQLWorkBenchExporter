@@ -182,7 +182,9 @@ class Column extends Base
      */
     protected function columnNameBeautifier($columnName)
     {
-        return ucfirst(preg_replace('@\_(\w)@e', 'ucfirst("$1")', $columnName));
+        return ucfirst(preg_replace_callback('@\_(\w)@', function ($m) {
+            return ucfirst($m[1]);
+        }, $columnName));
     }
 
     /**

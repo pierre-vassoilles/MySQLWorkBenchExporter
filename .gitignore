@@ -8,3 +8,5 @@ tests/
 *.zip
 *.sh
 *.7z
+
+.idea
